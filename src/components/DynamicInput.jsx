@@ -20,9 +20,17 @@ const GiphyList = () => {
   const dispatch = useDispatch();
 
   const onChange = async ({ target : { value } }) => {
-    const { data } = await getGiphyData(value);
-    const cleanedData = data.map(({title, images}) => ({ title, images }));
-    dispatch(actions.setData(cleanedData))
+    dispatch(actions.setStatusPending())
+    try {
+      const { data } = await getGiphyData(value);
+      console.error('data', data);
+      const cleanedData = data.map(({ title, id, images: { fixed_height: { url } }}) => ({ title, id, url }));
+      dispatch(actions.setStatusSuccess());
+      dispatch(actions.setData(cleanedData));
+    } catch (err) {
+      dispatch(actions.setStatusFailed());
+      console.error(`error -> ${err}`);
+    }
   }
 
   const debouncedOnChange = debounce(onChange, 500);
