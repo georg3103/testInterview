@@ -1,13 +1,21 @@
 import * as React from 'react';
 
-const FakePost = ({title, imageSrc}) => {
-  console.warn('imgSource', imageSrc);
+const Post = ({ title, imageSrc, onClick }) => {
+  const divStyle = {
+    cursor: 'pointer',
+    color: 'blue',
+    'text-decoration': 'underline'
+  };
+
   return (
     <div className="post">
-      <h3>{title}</h3>
-      <img src={imageSrc} alt='img'/>
+      <div
+        style={divStyle}
+        onClick={onClick}
+      >{title}</div>
+      {<img src={imageSrc} alt='img'/>}
     </div>
   );
 };
 
-export default FakePost;
+export default Post;

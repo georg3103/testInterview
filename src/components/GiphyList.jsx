@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom'
 
 import FakePost from './FakePost';
 import Post from './Post';
@@ -28,7 +29,7 @@ const GiphyList = () => {
   const status = useSelector((state) => state.data.status);
   const posts = useSelector((state) => state.data.list);
 
-  console.error(status, posts);
+  const history = useHistory()
 
   const renderPosts = (posts) => {
     return posts.map(({title, id, url }) => (
@@ -36,6 +37,9 @@ const GiphyList = () => {
         <Post
           title={title}
           imageSrc={url}
+          onClick={() => {
+            history.push(`/post/${id}`)
+          }}
         />
       </div>
     ));
